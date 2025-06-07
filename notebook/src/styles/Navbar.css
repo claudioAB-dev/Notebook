@@ -1,0 +1,132 @@
+/* --- Variables para un fácil ajuste --- */
+:root {
+  --text-primary: #171717; /* Un negro suave, no tan duro como el #000 */
+  --text-secondary: #555555; /* Gris para elementos menos importantes */
+  --bg-primary: #ffffff; /* Fondo principal del navbar */
+  --bg-hover: #f1f1f1; /* Color sutil para el hover */
+  --border-color: #e7e7e7; /* Color para bordes muy finos */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  --radius: 6px;
+}
+
+/* --- Estilos base del cuerpo para consistencia --- */
+body {
+  font-family: var(--font-sans);
+  background-color: #fcfcfc; /* Un fondo ligeramente grisáceo para que el navbar blanco resalte */
+  margin: 0;
+  color: var(--text-primary);
+}
+
+/* --- Estructura principal del Navbar --- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem; /* Espaciado generoso */
+  background-color: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+  width: 100%;
+  box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+
+/* --- Marca/Logo --- */
+.navbar-brand a {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+/* --- Menú de Navegación (Escritorio) --- */
+.navbar-menu {
+  display: flex; /* Oculto por defecto en móvil, visible en escritorio */
+}
+
+/* El div que contiene los enlaces */
+.navbar-menu > div {
+  display: flex;
+  gap: 0.5rem; /* Espacio entre elementos, más limpio que margin */
+}
+
+.navbar-menu-item {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius);
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.navbar-menu-item:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* --- Botón de Menú Hamburguesa (Móvil) --- */
+.navbar-toggle {
+  display: none; /* Oculto en escritorio */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.icon-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: var(--text-primary);
+  margin: 4px 0;
+  transition: transform 0.3s ease;
+}
+
+/* --- Diseño Responsivo (Móvil) --- */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap; /* Permite que el menú se coloque debajo */
+  }
+
+  .navbar-toggle {
+    display: block; /* Muestra el botón de hamburguesa */
+  }
+
+  .navbar-menu {
+    display: none; /* Oculta el menú por defecto */
+    width: 100%;
+    /* La clase .is-open lo volverá a mostrar */
+  }
+
+  /*
+     * Clase que se añadirá con JS para mostrar el menú
+     */
+  .navbar-menu.is-open {
+    display: flex;
+    margin-top: 1rem;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  /* Adaptar el contenedor de enlaces para la vista móvil */
+  .navbar-menu.is-open > div {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.25rem;
+  }
+
+  .navbar-menu-item {
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

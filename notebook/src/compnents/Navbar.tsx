@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/Navbar.css"; // Import Tailwind CSS styles
+import "../styles/Navbar.css";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -7,6 +7,7 @@ const Navbar: React.FC = () => {
   const handleNavMenuToggle = () => {
     setIsOpen(!isOpen);
   };
+
   return (
     <nav className="navbar">
       <div className="navbar-brand">
@@ -23,7 +24,11 @@ const Navbar: React.FC = () => {
         <span className="icon-bar"></span>
         <span className="icon-bar"></span>
       </button>
-      <div className="navbar-menu">
+      {/* Línea modificada aquí */}
+      <div
+        id="navbarMenuContent"
+        className={`navbar-menu ${isOpen ? "is-open" : ""}`}
+      >
         <div className="space-x-4">
           <a href="#" className="navbar-menu-item">
             Home
@@ -32,7 +37,7 @@ const Navbar: React.FC = () => {
             Notebooks
           </a>
           <a href="#" className="navbar-menu-item">
-            books
+            Books
           </a>
           <a href="#" className="navbar-menu-item">
             To read list
@@ -43,4 +48,4 @@ const Navbar: React.FC = () => {
   );
 };
 
-export default Navbar; // This code defines a simple Navbar component using React and Tailwind CSS.
+export default Navbar;
