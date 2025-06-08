@@ -1,0 +1,313 @@
+// === VARIABLES AVANZADAS PARA EL SWITCH ÉPICO ===
+
+// Dimensiones y espaciado
+$switch-ancho: 80px;
+$switch-alto: 30px;
+$switch-padding: 4px;
+$circulo-tamaño: $switch-alto - ($switch-padding * 2);
+
+// Paleta de colores mejorada
+$color-dia-primario: #87ceeb;
+$color-dia-secundario: #ffd700;
+$color-noche-primario: #1a1a2e;
+$color-noche-secundario: #16213e;
+$color-noche-acento: #0f3460;
+$color-circulo-dia: #ffffff;
+$color-circulo-noche: #2c2c54;
+$color-sombra-dia: rgba(255, 215, 0, 0.4);
+$color-sombra-noche: rgba(79, 172, 254, 0.4);
+
+// Efectos y transiciones
+$velocidad-transicion: 0.6s;
+$velocidad-bounce: 0.8s;
+$curva-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+$curva-suave: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+// === ESTILOS DEL SWITCH ÉPICO ===
+
+.switch-container {
+  display: inline-block;
+  position: relative;
+  padding: 10px;
+
+  // Efecto de resplandor alrededor del switch
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% + 20px);
+    height: calc(100% + 20px);
+    border-radius: 50px;
+    background: radial-gradient(
+      circle,
+      transparent 40%,
+      rgba(135, 206, 235, 0.1) 70%
+    );
+    opacity: 0;
+    transition: opacity $velocidad-transicion $curva-suave;
+    pointer-events: none;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+}
+
+.switch-input {
+  display: none;
+}
+
+.switch-label {
+  display: flex;
+  align-items: center;
+  width: $switch-ancho;
+  height: $switch-alto;
+  border-radius: $switch-alto;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  // Fondo animado con gradiente
+  background: linear-gradient(
+    135deg,
+    $color-dia-primario 0%,
+    $color-dia-secundario 100%
+  );
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1),
+    0 4px 8px rgba(135, 206, 235, 0.3);
+
+  transition: all $velocidad-transicion $curva-suave;
+
+  // Nubes animadas para el modo día
+  &::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 15px;
+    width: 12px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+
+    box-shadow: 20px 2px 0 -2px rgba(255, 255, 255, 0.6),
+      35px -1px 0 -1px rgba(255, 255, 255, 0.7),
+      8px 15px 0 -3px rgba(255, 255, 255, 0.5);
+
+    opacity: 1;
+    transition: all $velocidad-transicion $curva-suave;
+    animation: nubes-flotando 4s ease-in-out infinite;
+  }
+
+  // Círculo principal con efectos avanzados
+  &::after {
+    content: "☀️";
+    position: absolute;
+    top: $switch-padding;
+    left: $switch-padding;
+    width: $circulo-tamaño;
+    height: $circulo-tamaño;
+    background: radial-gradient(circle at 30% 30%, $color-circulo-dia, #f0f0f0);
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15),
+      0 0 0 2px rgba(255, 255, 255, 0.2), 0 0 20px $color-sombra-dia;
+
+    transition: all $velocidad-bounce $curva-bounce;
+    transform: scale(1) rotate(0deg);
+  }
+
+  // Hover effect
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1),
+      0 8px 20px rgba(135, 206, 235, 0.4);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// === ESTADO ACTIVADO (MODO OSCURO) ===
+
+.switch-input:checked + .switch-label {
+  background: linear-gradient(
+    135deg,
+    $color-noche-primario 0%,
+    $color-noche-secundario 50%,
+    $color-noche-acento 100%
+  );
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3),
+    0 4px 8px rgba(26, 26, 46, 0.5);
+
+  // Estrellas para el modo noche
+  &::before {
+    left: 10px;
+    top: 6px;
+    width: 2px;
+    height: 2px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 1;
+
+    box-shadow: 15px 8px 0 0 #fff, 30px 3px 0 0 rgba(255, 255, 255, 0.8),
+      45px 12px 0 0 rgba(255, 255, 255, 0.6),
+      8px 18px 0 0 rgba(255, 255, 255, 0.9),
+      25px 22px 0 0 rgba(255, 255, 255, 0.7),
+      40px 16px 0 0 rgba(255, 255, 255, 0.5),
+      18px 4px 0 0 rgba(255, 255, 255, 0.8),
+      35px 8px 0 0 rgba(255, 255, 255, 0.6);
+
+    animation: estrellas-titilando 2s ease-in-out infinite alternate;
+  }
+
+  // Luna con efectos
+  &::after {
+    content: "🌙";
+    background: radial-gradient(
+      circle at 70% 30%,
+      $color-circulo-noche,
+      #1a1a1a
+    );
+    transform: translateX($switch-ancho - $switch-alto) scale(1.1)
+      rotate(360deg);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(79, 172, 254, 0.3),
+      0 0 25px $color-sombra-noche;
+    font-size: 14px;
+  }
+
+  &:hover {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3),
+      0 8px 20px rgba(26, 26, 46, 0.6);
+  }
+}
+
+// === ANIMACIONES ÉPICAS ===
+
+@keyframes nubes-flotando {
+  0%,
+  100% {
+    transform: translateX(0px) translateY(0px);
+  }
+  25% {
+    transform: translateX(2px) translateY(-1px);
+  }
+  50% {
+    transform: translateX(-1px) translateY(1px);
+  }
+  75% {
+    transform: translateX(1px) translateY(-0.5px);
+  }
+}
+
+@keyframes estrellas-titilando {
+  0% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+// === EFECTOS ADICIONALES ===
+
+// Partículas mágicas al hacer hover
+.switch-label:hover {
+  &::after {
+    animation: pulso-magico 1s ease-in-out infinite;
+  }
+}
+
+@keyframes pulso-magico {
+  0%,
+  100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15),
+      0 0 0 2px rgba(255, 255, 255, 0.2), 0 0 20px currentColor;
+  }
+  50% {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2),
+      0 0 0 4px rgba(255, 255, 255, 0.3), 0 0 30px currentColor;
+  }
+}
+
+// Respuesta táctil mejorada
+.switch-input:checked + .switch-label:hover::after {
+  animation: luna-brillando 2s ease-in-out infinite;
+}
+
+@keyframes luna-brillando {
+  0%,
+  100% {
+    filter: brightness(1) drop-shadow(0 0 5px rgba(79, 172, 254, 0.3));
+  }
+  50% {
+    filter: brightness(1.2) drop-shadow(0 0 10px rgba(79, 172, 254, 0.6));
+  }
+}
+
+// === MODO ACCESIBILIDAD ===
+
+// Soporte para usuarios que prefieren menos movimiento
+@media (prefers-reduced-motion: reduce) {
+  .switch-label,
+  .switch-label::before,
+  .switch-label::after {
+    animation: none;
+    transition-duration: 0.2s;
+  }
+}
+
+// Focus para accesibilidad
+.switch-input:focus + .switch-label {
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
+}
+
+// === VARIANTES ADICIONALES ===
+
+// Switch grande
+.switch-grande {
+  .switch-label {
+    width: #{$switch-ancho * 1.3};
+    height: #{$switch-alto * 1.3};
+
+    &::after {
+      width: #{$circulo-tamaño * 1.3};
+      height: #{$circulo-tamaño * 1.3};
+      font-size: 20px;
+    }
+  }
+
+  .switch-input:checked + .switch-label::after {
+    transform: translateX(#{($switch-ancho * 1.3) - ($switch-alto * 1.3)})
+      scale(1.1) rotate(360deg);
+  }
+}
+
+// Switch compacto
+.switch-compacto {
+  .switch-label {
+    width: #{$switch-ancho * 0.8};
+    height: #{$switch-alto * 0.8};
+
+    &::after {
+      width: #{$circulo-tamaño * 0.8};
+      height: #{$circulo-tamaño * 0.8};
+      font-size: 12px;
+    }
+  }
+
+  .switch-input:checked + .switch-label::after {
+    transform: translateX(#{($switch-ancho * 0.8) - ($switch-alto * 0.8)})
+      scale(1.1) rotate(360deg);
+  }
+}
