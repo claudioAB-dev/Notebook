@@ -25,3 +25,39 @@ class Usuarios(db.Model):
             'email': self.email,
             'fecha_creacion': self.fecha_creacion.isoformat()
         }
+
+class Libretas(db.Model):
+    __tablename__ = "libretas"
+    id = db.Column(db.Integer, primary_key=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+    titulo = db.Column(db.String(100), nullable=False)
+    fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<Libreta {self.titulo}>'
+    def serialize(self):
+        return {
+            'id': self.id,
+            'usuario_id': self.usuario_id,
+            'titulo': self.titulo,
+            'fecha_creacion': self.fecha_creacion.isoformat()
+        }
+    
+    class Paginas(db.Model):
+        __tablename__="Paginas"
+        id = db.Column(db.Integer, primary_key=True)
+        libreta_id = db.Column(db.Integer, db.ForeignKey('libretas.id'), nullable=False)
+        titulo = db.Column(db.String(100), nullable=False)
+        contenido = db.Column(db.Text, nullable=True)
+        fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
+
+        def __repr__(self):
+            return f'<Pagina {self.titulo}>'
+        def serialize(self):
+            return {
+                'id': self.id,
+                'libreta_id': self.libreta_id,
+                'titulo': self.titulo,
+                'contenido': self.contenido,
+                'fecha_creacion': self.fecha_creacion.isoformat()
+            }
