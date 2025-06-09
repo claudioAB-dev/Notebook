@@ -1,6 +1,7 @@
 import flask_sqlalchemy
 from datetime import datetime
 from flask import current_app
+from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 class Usuarios(db.Model):
     __tablename__ = 'usuarios'
@@ -43,21 +44,21 @@ class Libretas(db.Model):
             'fecha_creacion': self.fecha_creacion.isoformat()
         }
     
-    class Paginas(db.Model):
-        __tablename__="Paginas"
-        id = db.Column(db.Integer, primary_key=True)
-        libreta_id = db.Column(db.Integer, db.ForeignKey('libretas.id'), nullable=False)
-        titulo = db.Column(db.String(100), nullable=False)
-        contenido = db.Column(db.Text, nullable=True)
-        fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
+class Paginas(db.Model):
+    __tablename__="Paginas"
+    id = db.Column(db.Integer, primary_key=True)
+    libreta_id = db.Column(db.Integer, db.ForeignKey('libretas.id'), nullable=False)
+    titulo = db.Column(db.String(100), nullable=False)
+    contenido = db.Column(db.Text, nullable=True)
+    fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
 
-        def __repr__(self):
-            return f'<Pagina {self.titulo}>'
-        def serialize(self):
-            return {
-                'id': self.id,
-                'libreta_id': self.libreta_id,
-                'titulo': self.titulo,
-                'contenido': self.contenido,
-                'fecha_creacion': self.fecha_creacion.isoformat()
+    def __repr__(self):
+        return f'<Pagina {self.titulo}>'
+    def serialize(self):
+        return {
+            'id': self.id,
+            'libreta_id': self.libreta_id,
+            'titulo': self.titulo,
+            'contenido': self.contenido,
+            'fecha_creacion': self.fecha_creacion.isoformat()
             }

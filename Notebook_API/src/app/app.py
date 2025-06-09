@@ -11,8 +11,8 @@ load_dotenv()
 jwt = JWTManager()
 bcrypt  = Bcrypt()
 
-# from src.models import db
-# from src.routes.main import main_blueprint
+from .models import db
+from .routes import main_blueprint
 
 
 def create_app():
