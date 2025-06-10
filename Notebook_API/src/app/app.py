@@ -10,6 +10,8 @@ load_dotenv()
 
 jwt = JWTManager()
 bcrypt  = Bcrypt()
+sqlalchemy = SQLAlchemy()
+
 
 from .models import db
 from .routes import main_blueprint
@@ -32,7 +34,7 @@ def create_app():
     #db.init_app(current_app)
     bcrypt.init_app(current_app)
     jwt.init_app(current_app)
-
+    sqlalchemy.init_app(current_app)
 
     current_app.register_blueprint(main_blueprint)
     
