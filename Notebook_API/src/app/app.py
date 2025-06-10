@@ -28,9 +28,11 @@ def create_app():
     current_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     current_app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
 
+
     #db.init_app(current_app)
     bcrypt.init_app(current_app)
     jwt.init_app(current_app)
+
 
     current_app.register_blueprint(main_blueprint)
     

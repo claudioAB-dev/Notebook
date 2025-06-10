@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-import re, os
+import  os
 from sqlalchemy.exc import IntegrityError
 from .models import db, Usuarios, Libretas, Paginas
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -8,11 +8,21 @@ from datetime import datetime
 
 main_blueprint = Blueprint('main', __name__)
 
-#Crea un decorador para validar que el usuario x muestre las libretas y paginas que le pertenecen
 
 
 
 @main_blueprint.route('/login', methods=['POST'])
 def login():
-    return jsonify({"message": "Login endpoint not implemented"}), 501
+    data = request.get_json()
+    user_name = data.get('nombre_usuario', None)
+    password = data.get('password', None)
+
+    user = Usuarios.query.filter_by(nombre_usuario=user_name).first()
+
+    if not user or not check_password_hash(user.passwors, password):
+        return jsonify({"msg": "Bad username or password"}), 401
+    
+    acces_token = create_access_token(identity=user.id)
+    return jsonify(acces_token=acces_token)
+
 
