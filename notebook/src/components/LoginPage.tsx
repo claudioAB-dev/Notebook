@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+import "../styles/Login.css";
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -80,6 +81,8 @@ const LoginPage: React.FC = () => {
           <button type="submit" className="btn btn-primary">
             Entrar
           </button>
+          <a href="/register">No acount?</a>
+          <a href=""> Forgot password?</a>
         </form>
       </div>
     </div>

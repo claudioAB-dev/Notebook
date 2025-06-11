@@ -1,47 +1,10 @@
-import React from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  Outlet,
-} from "react-router-dom";
-import { AuthProvider, useAuth } from "./context/AuthContext";
+//import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
-import Navbar from "./components/Navbar";
 import LoginPage from "./components/LoginPage";
-// 1. Importa el nuevo componente de registro
 import RegisterPage from "./components/RegistPage";
-
-const PrivateLayout = () => {
-  const { isAuthenticated } = useAuth();
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return (
-    <div className="app-layout">
-      <Navbar />
-      <main>
-        <Outlet />
-      </main>
-    </div>
-  );
-};
-
-const HomePage = () => {
-  const { user, logout } = useAuth();
-  return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>¡Bienvenido, {user?.username}!</h1>
-      <p>Has iniciado sesión correctamente en tu Notebook.</p>
-      <button onClick={logout} className="btn btn-secondary">
-        Cerrar Sesión
-      </button>
-    </div>
-  );
-};
+import LandingPage from "./components/LandingPage";
 
 const App = () => {
   return (
@@ -51,15 +14,13 @@ const App = () => {
           <Routes>
             {/* Rutas públicas */}
             <Route path="/login" element={<LoginPage />} />
-            {/* 2. Añade la nueva ruta para el registro */}
             <Route path="/register" element={<RegisterPage />} />
 
             {/* Rutas privadas anidadas */}
-            <Route element={<PrivateLayout />}>
-              <Route path="/" element={<HomePage />} />
+            <Route element={<LandingPage />}>
+              <Route path="/" element={<LandingPage />} />
             </Route>
 
-            {/* Redirección para cualquier otra ruta */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </BrowserRouter>
