@@ -643,3 +643,12 @@ kbd {
     scroll-behavior: auto !important;
   }
 }
+.main-content-area {
+  padding-top: 72px; /* Coincide con la altura de la navbar en desktop */
+}
+
+@media (max-width: 768px) {
+  .main-content-area {
+    padding-top: 64px; /* Coincide con la altura de la navbar en móvil */
+  }
+}

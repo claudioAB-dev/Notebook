@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import check_password_hash
 from flask_jwt_extended import create_access_token
-from .models import Usuarios, db
+from .models import Usuarios, db, Libretas, Paginas
 
 main_blueprint = Blueprint('main', __name__)
 
@@ -42,3 +42,34 @@ def register():
     db.session.commit()
     
     return jsonify({"msg": "Usuario creado exitosamente"}), 201
+
+
+@main_blueprint.route('/notebooks', methods=['GET'])
+def get_notebooks():
+    user_id = request.args.get('user_id')
+    
+    if not user_id:
+        return jsonify({"msg": "Falta el ID del usuario"}), 400
+    
+    notebooks = Usuarios.query.filter_by(id=user_id).first().libretas
+    
+    return jsonify([notebook.serialize() for notebook in notebooks]), 200
+
+@main_blueprint.route('/notebooks', methods=['POST'])
+def create_notebook():
+    data = request.get_json()
+    user_id = data.get('user_id')
+    title = data.get('titulo')
+
+    if not user_id or not title:
+        return jsonify({"msg": "Faltan el ID del usuario o el título de la libreta"}), 400
+
+    new_notebook = Libretas(
+        usuario_id=user_id,
+        titulo=title
+    )
+    
+    db.session.add(new_notebook)
+    db.session.commit()
+    
+    return jsonify(new_notebook.serialize()), 201

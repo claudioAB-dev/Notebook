@@ -5,7 +5,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegistPage";
 import LandingPage from "./components/LandingPage";
-
+import Dashboard from "./components/Dashboard";
 const App = () => {
   return (
     <AuthProvider>
@@ -13,12 +13,13 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             {/* Rutas públicas */}
+            <Route path="/" element={<LandingPage></LandingPage>} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
 
             {/* Rutas privadas anidadas */}
-            <Route element={<LandingPage />}>
-              <Route path="/" element={<LandingPage />} />
+            <Route element={<Dashboard />}>
+              <Route path="/dashboard" element={<LandingPage />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/" />} />
